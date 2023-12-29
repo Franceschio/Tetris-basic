@@ -162,13 +162,13 @@ pointsView.className = "pointsView";
 const pointsList = document.createElement("div");
 pointsList.className = "pointsList";
 
-//creo il valore della larghezza di una riga di quadrati
-let width = 10;
-
 //Per movimento in touch
 let lastTouchX;
 let lastTouchY;
 let touchMoved = false;
+
+//creo il valore della larghezza di una riga di quadrati
+let width = 10;
 
 //Creo le forme (tetrominoes) e il loro contenitore
 
