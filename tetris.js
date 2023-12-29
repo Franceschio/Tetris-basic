@@ -762,18 +762,18 @@ const selectionsEvents = (select) => {
 
 document.addEventListener("keyup", singleAction);
 document.addEventListener("keydown", multyAction);
-gameBoard.addEventListener("touchstart", (e) => {
+main.addEventListener("touchstart", (e) => {
   e.preventDefault();
   touchMoved = false;
 });
-gameBoard.addEventListener("touchend", (e) => {
+main.addEventListener("touchend", (e) => {
   e.preventDefault();
   if (!touchMoved) {
     touchMoved = false;
     setTetrRotation();
   }
 });
-gameBoard.addEventListener("touchmove", touchEvents);
+main.addEventListener("touchmove", touchEvents);
 pauseButton.addEventListener("click", () => setPauseMenu());
 musicButton.addEventListener("click", () => riproduci());
 pointsRemoveBtn.addEventListener("click", showPointsList);
