@@ -1,10 +1,5 @@
 // Inizio codice
 
-// Blocca la rotazione dello schermo
-if (screen.orientation) {
-  screen.orientation.lock("portrait");
-}
-
 //localstorage
 
 //Punteggi in localStorage
