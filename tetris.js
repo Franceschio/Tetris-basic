@@ -102,7 +102,7 @@ const song = new Audio(`/utils/Tetris_Soundtrack.mp3`);
 
 //attiva/disattiva
 let musicFlag = false;
-song.volume = 0.5;
+song.volume = 0.1;
 
 const verificaMusica = () => {
   const song = document.createElement("audio");
@@ -124,7 +124,7 @@ const riproduci = () => {
       );
     }
   } else {
-    song.volume = 0;
+    song.pause();
     musicFlag = false;
     musicBtnImg.setAttribute(
       "src",
