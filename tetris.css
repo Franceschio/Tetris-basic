@@ -1,0 +1,332 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  font-family: "Tetris";
+}
+
+.main {
+  height: 100dvh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #020049;
+  padding: 20px;
+}
+
+.gameBoard {
+  background-color: #0600ae;
+  width: 250px;
+  display: flex;
+  flex-wrap: wrap;
+  overflow-y: visible;
+}
+
+.square {
+  height: 25px;
+  width: 25px;
+  background-color: #00000050;
+  border: 1px solid whitesmoke;
+}
+
+.tetromino {
+  border-radius: 0.5px;
+}
+
+.menu {
+  height: 400px;
+  width: 400px;
+  border: 2px solid white;
+  border-radius: 5px;
+  background-color: #090089e9;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 50;
+  position: fixed;
+}
+
+.selection {
+  text-align: center;
+  font-size: 120%;
+  text-transform: uppercase;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #0b00a1;
+  border: 1px solid white;
+  border-radius: 10px;
+  width: 60%;
+  cursor: pointer;
+  user-select: none;
+}
+
+.selection:hover {
+  background-color: #020049;
+  transition: 0.3s;
+}
+
+.selection:active {
+  transform: scale(0.8);
+}
+
+.exitSelection {
+  background-color: red;
+}
+
+.exitSelection:hover {
+  background-color: #b50000;
+  transition: 0.3s;
+}
+
+.mainMenu {
+  height: 100dvh;
+  width: 100vw;
+  background-color: #090089;
+  z-index: 100;
+  position: fixed;
+  border: none;
+  border-radius: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 20px;
+}
+
+.gameTitle {
+  font-size: 10em;
+  background: #121fcf;
+  background: linear-gradient(
+    to right,
+    #1422ea 10%,
+    #00ff00 30%,
+    #ff0000 50%,
+    #f7ff00 70%,
+    #9f00cf 90%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  overflow-y: hidden;
+}
+
+.mainOptions {
+  height: 400px;
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.pointsRemoveBtn {
+  border: 2px solid white;
+  color: white;
+  background-color: #070064e9;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 10px;
+  position: fixed;
+  top: 60px;
+  left: 40px;
+  padding: 10px;
+  border-radius: 5px;
+  user-select: none;
+  cursor: pointer;
+}
+
+.pointsRemoveBtn:hover {
+  background-color: #020049;
+  transition: 0.3s;
+}
+
+.pointsRemoveBtn:active {
+  transform: scale(0.8);
+}
+
+.pointsList {
+  max-height: 400px;
+  width: 400px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  overflow-y: hidden;
+  border: 2px solid white;
+  border-radius: 5px;
+  background-color: #0b00a1;
+  border-bottom: none;
+}
+
+.pointRow {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 2px solid white;
+  font-size: 2em;
+  text-align: center;
+  padding: 5px;
+  color: #ffd700;
+  overflow: hidden;
+}
+
+.pointsNumber {
+  width: 30%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-right: 2px solid white;
+  overflow: hidden;
+}
+
+.rowPoints {
+  width: 70%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.buttonsContenitor {
+  border: 2px solid white;
+  background-color: #070064e9;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 10px;
+  position: fixed;
+  top: 40px;
+  left: 40px;
+  padding: 10px;
+  border-radius: 5px;
+  user-select: none;
+}
+
+.pauseButton {
+  height: 40px;
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  background-color: #0d00c9;
+  cursor: pointer;
+  transition: 0.5s;
+  user-select: none;
+  border: 1px solid white;
+}
+
+.pauseButton:hover {
+  background-color: #1000ef;
+}
+
+.pauseButton:active {
+  transform: scale(0.8);
+}
+
+.pauseButton img {
+  height: 70%;
+  width: 70%;
+  object-fit: cover;
+}
+
+.musicButton {
+  height: 40px;
+  width: 40px;
+  border-radius: 5px;
+  background-color: #0d00c9;
+  cursor: pointer;
+  transition: 0.5s;
+  user-select: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid white;
+}
+
+.musicButton:hover {
+  background-color: #1000ef;
+}
+
+.musicButton:active {
+  transform: scale(0.8);
+}
+
+.musicButton img {
+  height: 70%;
+  width: 70%;
+  object-fit: cover;
+}
+
+.pointsView {
+  border: 2px solid white;
+  color: white;
+  background-color: #090089e9;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 10px;
+  position: fixed;
+  top: 40px;
+  right: 40px;
+  padding: 10px;
+  border-radius: 5px;
+  user-select: none;
+}
+
+@media screen and (max-width: 800px) {
+  .menu {
+    width: 300px;
+  }
+
+  .gameTitle {
+    font-size: 6em;
+  }
+
+  .selection {
+    padding: 20px;
+    width: 60%;
+    font-size: auto;
+  }
+
+  .pointsRemoveBtn {
+    top: 20px;
+    left: 5px;
+  }
+
+  .pointsList {
+    width: 300px;
+  }
+
+  .buttonsContenitor {
+    top: 10px;
+    left: 5px;
+    padding: 5px;
+    width: 120px;
+  }
+
+  .pointsView {
+    top: 20px;
+    right: 5px;
+    padding: 5px;
+    width: 120px;
+  }
+}
+
+@media screen and (max-width: 300px) {
+  .gameTitle {
+    font-size: 5em;
+  }
+
+  .row {
+    width: 25px;
+  }
+}
