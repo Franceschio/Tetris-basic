@@ -103,7 +103,7 @@ pauseButton.append(pauseBtnImg);
 
 //musica
 
-const song = new Audio(`/utils/Tetris_Soundtrack.mp3`);
+const song = new Audio(`/Tetris_Soundtrack.mp3`);
 
 //attiva/disattiva
 let musicFlag = false;
