@@ -762,10 +762,12 @@ const selectionsEvents = (select) => {
 
 document.addEventListener("keyup", singleAction);
 document.addEventListener("keydown", multyAction);
-gameBoard.addEventListener("touchstart", () => {
+gameBoard.addEventListener("touchstart", (e) => {
+  e.preventDefault();
   touchMoved = false;
 });
-gameBoard.addEventListener("touchend", () => {
+gameBoard.addEventListener("touchend", (e) => {
+  e.preventDefault();
   if (!touchMoved) {
     touchMoved = false;
     setTetrRotation();
