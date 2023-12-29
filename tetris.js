@@ -644,41 +644,43 @@ const setPauseMenu = () => {
 };
 
 const touchEvents = (e) => {
-  e.preventDefault();
-  let touch = e.touches[0]; // Ottieni il primo tocco
-  let newX = Math.floor((gameBoard.clientWidth + touch.pageX) / 25); // Sposta il tetromino sull'asse X
-  let newY = Math.floor((gameBoard.clientHeight + touch.pageY) / 25); // Sposta il tetromino sull'asse Y
-  if (newX > lastTouchX) {
-    if (
-      currenTetr.some(
-        (i) =>
-          squares[tetrPosition + i + 1].classList.contains("taked") ||
-          currenTetr.some((i) => (tetrPosition + i) % width === width - 1)
-      )
-    ) {
-      return;
-    } else {
-      moveRight();
+  if (!document.querySelector(".mainMenu")) {
+    e.preventDefault();
+    let touch = e.touches[0]; // Ottieni il primo tocco
+    let newX = Math.floor((gameBoard.clientWidth + touch.pageX) / 25); // Sposta il tetromino sull'asse X
+    let newY = Math.floor((gameBoard.clientHeight + touch.pageY) / 25); // Sposta il tetromino sull'asse Y
+    if (newX > lastTouchX) {
+      if (
+        currenTetr.some(
+          (i) =>
+            squares[tetrPosition + i + 1].classList.contains("taked") ||
+            currenTetr.some((i) => (tetrPosition + i) % width === width - 1)
+        )
+      ) {
+        return;
+      } else {
+        moveRight();
+      }
+      touchMoved = true;
+    } else if (newX < lastTouchX) {
+      if (
+        currenTetr.some((i) => (tetrPosition + i) % width === 0) ||
+        currenTetr.some((i) =>
+          squares[tetrPosition + i - 1].classList.contains("taked")
+        )
+      ) {
+        return;
+      } else {
+        moveLeft();
+      }
+      touchMoved = true;
+    } else if (newY > lastTouchY) {
+      fall();
+      touchMoved = true;
     }
-    touchMoved = true;
-  } else if (newX < lastTouchX) {
-    if (
-      currenTetr.some((i) => (tetrPosition + i) % width === 0) ||
-      currenTetr.some((i) =>
-        squares[tetrPosition + i - 1].classList.contains("taked")
-      )
-    ) {
-      return;
-    } else {
-      moveLeft();
-    }
-    touchMoved = true;
-  } else if (newY > lastTouchY) {
-    fall();
-    touchMoved = true;
+    lastTouchX = newX;
+    lastTouchY = newY;
   }
-  lastTouchX = newX;
-  lastTouchY = newY;
 };
 
 //
@@ -763,14 +765,18 @@ const selectionsEvents = (select) => {
 document.addEventListener("keyup", singleAction);
 document.addEventListener("keydown", multyAction);
 main.addEventListener("touchstart", (e) => {
-  e.preventDefault();
-  touchMoved = false;
+  if (!document.querySelector(".mainMenu")) {
+    e.preventDefault();
+    touchMoved = false;
+  }
 });
 main.addEventListener("touchend", (e) => {
-  e.preventDefault();
-  if (!touchMoved) {
-    touchMoved = false;
-    setTetrRotation();
+  if (!document.querySelector(".mainMenu")) {
+    e.preventDefault();
+    if (!touchMoved) {
+      touchMoved = false;
+      setTetrRotation();
+    }
   }
 });
 main.addEventListener("touchmove", touchEvents);
