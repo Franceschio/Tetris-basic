@@ -764,13 +764,13 @@ const selectionsEvents = (select) => {
 
 document.addEventListener("keyup", singleAction);
 document.addEventListener("keydown", multyAction);
-main.addEventListener("touchstart", (e) => {
+gameBoard.addEventListener("touchstart", (e) => {
   if (!document.querySelector(".mainMenu")) {
     e.preventDefault();
     touchMoved = false;
   }
 });
-main.addEventListener("touchend", (e) => {
+gameBoard.addEventListener("touchend", (e) => {
   if (!document.querySelector(".mainMenu")) {
     e.preventDefault();
     if (!touchMoved) {
