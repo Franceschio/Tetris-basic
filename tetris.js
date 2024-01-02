@@ -520,8 +520,8 @@ const rowDestruction = () => {
 const setTetrRotation = () => {
   deleteTetr();
   // Salva la rotazione corrente e la posizione del tetromino
-  const currentRotation = tetrRotation;
   const currentPosition = tetrPosition;
+  const currentRotation = tetrRotation;
 
   if (currenTetr.some((i) => (i == 31 && tetrPosition + i) % width == 8)) {
     tetrPosition--;
@@ -556,11 +556,12 @@ const setTetrRotation = () => {
   currenTetr = tetrominoes[randomNum][tetrRotation];
   // Controlla se la rotazione causa una collisione
   const isColliding = currenTetr.some((i) =>
-    squares[currentPosition + i].classList.contains("taked")
+    squares[tetrPosition + i].classList.contains("taked")
   );
   if (isColliding) {
     // Se c'è una collisione, ripristina la rotazione e la posizione precedenti
     tetrRotation = currentRotation;
+    tetrPosition = currentPosition;
     currenTetr = tetrominoes[randomNum][tetrRotation];
     createTetr();
   } else {
