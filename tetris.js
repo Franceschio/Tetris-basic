@@ -163,6 +163,8 @@ const pointsList = document.createElement("div");
 pointsList.className = "pointsList";
 
 //Per movimento in touch
+let newX;
+let newY;
 let lastTouchX;
 let lastTouchY;
 let touchMoved = false;
@@ -367,8 +369,6 @@ const stopAll = () => {
       });
       tuttiPunteggi.sort((a, b) => b - a);
     }
-    points = 0;
-    pointsView.textContent = `Punteggio: ${points}`;
   }
 };
 
@@ -384,6 +384,8 @@ const newGame = (menu) => {
     square.classList.remove("taked");
     square.style.backgroundColor = "";
   });
+  points = 0;
+  pointsView.textContent = `Punteggio: ${points}`;
   newTetr();
 };
 
@@ -523,7 +525,9 @@ const setTetrRotation = () => {
   const currentPosition = tetrPosition;
   const currentRotation = tetrRotation;
 
-  if (currenTetr.some((i) => (i == 31 && tetrPosition + i) % width == 8)) {
+  if (
+    currenTetr.some((i) => (randomNum == 4 && tetrPosition + i) % width == 8)
+  ) {
     tetrPosition--;
   }
   //Contralla che il tetromino non compenetri coi bordi
@@ -538,13 +542,22 @@ const setTetrRotation = () => {
     tetrPosition = tetrPosition - width;
   }
   //sinistra
-  if (currenTetr.some((i) => (tetrPosition + i) % width === 0)) {
+  if (
+    currenTetr.some((i) => (tetrPosition + i) % width === 0) &&
+    randomNum !== 3 &&
+    randomNum !== 1
+  ) {
     tetrPosition++;
   }
   //destra
-  if (currenTetr.some((i) => (tetrPosition + i) % width === width - 1)) {
+  if (
+    currenTetr.some((i) => (tetrPosition + i) % width === width - 1) &&
+    randomNum !== 3 &&
+    randomNum !== 2 &&
+    randomNum !== 6
+  ) {
     tetrPosition--;
-    currenTetr.some((i) => (i == 31 ? tetrPosition-- : null));
+    randomNum == 4 ? tetrPosition-- : null;
   }
   //Cambia la variabile di rotazione in base alla posizione attuale
   if (tetrRotation < currenTetr.length - 1) {
@@ -626,14 +639,6 @@ const fastPlace = () => {
   });
 };
 
-//discesa veloce
-
-const fastDescend = () => {
-  clearInterval(moveInterval);
-  fall();
-  setInterval(moveInterval);
-};
-
 //Attiva/disattiva menu di pausa
 
 const setPauseMenu = () => {
@@ -648,8 +653,8 @@ const touchEvents = (e) => {
   if (!document.querySelector(".mainMenu")) {
     e.preventDefault();
     let touch = e.touches[0]; // Ottieni il primo tocco
-    let newX = Math.floor((gameBoard.clientWidth + touch.pageX) / 25); // Sposta il tetromino sull'asse X
-    let newY = Math.floor((gameBoard.clientHeight + touch.pageY) / 25); // Sposta il tetromino sull'asse Y
+    newX = Math.floor((gameBoard.clientWidth + touch.pageX) / 25); // Sposta il tetromino sull'asse X
+    newY = Math.floor((gameBoard.clientHeight + touch.pageY) / 25); // Sposta il tetromino sull'asse Y
     if (newX > lastTouchX) {
       if (
         currenTetr.some(
