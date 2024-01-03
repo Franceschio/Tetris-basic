@@ -183,10 +183,10 @@ const lTetromino = [
 ];
 
 const zTetromino = [
-  [0, width, width + 1, width * 2 + 1],
   [width + 1, width + 2, width * 2, width * 2 + 1],
   [0, width, width + 1, width * 2 + 1],
   [width + 1, width + 2, width * 2, width * 2 + 1],
+  [0, width, width + 1, width * 2 + 1],
 ];
 
 const tTetromino = [
@@ -219,10 +219,10 @@ const lTetrominoR = [
 ];
 
 const zTetrominoR = [
-  [0, width, width - 1, width * 2 - 1],
   [width - 1, width - 2, width * 2, width * 2 - 1],
   [0, width, width - 1, width * 2 - 1],
   [width - 1, width - 2, width * 2, width * 2 - 1],
+  [0, width, width - 1, width * 2 - 1],
 ];
 
 //Contenitore delle forme
@@ -505,7 +505,10 @@ const rowDestruction = () => {
         pointsView.textContent = `Punteggio: ${points}`;
         squares = [...squaresRemoved, ...squares];
         if (!fall()) {
+          deleteTetr();
           squares.forEach((square) => gameBoard.appendChild(square));
+          tetrPosition = tetrPosition - squaresRemoved.length;
+          createTetr();
           clearTimeout(squareTimeout);
         }
       }, 210);
@@ -553,7 +556,6 @@ const setTetrRotation = () => {
   if (
     currenTetr.some((i) => (tetrPosition + i) % width === width - 1) &&
     randomNum !== 3 &&
-    randomNum !== 2 &&
     randomNum !== 6
   ) {
     tetrPosition--;
