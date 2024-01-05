@@ -740,6 +740,7 @@ const touchEvents = (e) => {
       }
       touchMoved = true;
     } else if (newX < lastTouchX) {
+      console.log(newX);
       clearTouchY();
       if (
         currenTetr.some((i) => (tetrPosition + i) % width === 0) ||
@@ -755,7 +756,7 @@ const touchEvents = (e) => {
     } else if (newY > lastTouchY) {
       if (!touchInterval) {
         moveFlag = false;
-        touchInterval = setInterval(() => fall(), 150);
+        touchInterval = setInterval(() => fall(), 180);
       }
       touchMoved = true;
     }
