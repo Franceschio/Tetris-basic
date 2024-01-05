@@ -524,6 +524,7 @@ const rowDestruction = () => {
           createTetr();
           clearTimeout(squareTimeout);
         }
+        navigator.vibrate(300);
       }, 210);
     }
   }
