@@ -726,7 +726,7 @@ const touchEvents = (e) => {
     let touch = e.touches[0]; // Ottieni il primo tocco
     newX = Math.floor((touch.pageX - gameBoard.clientWidth) / 25) * 10; // Sposta il tetromino sull'asse X
     newY = Math.floor((touch.pageY - gameBoard.clientHeight) / 25); // Sposta il tetromino sull'asse Y
-    if (newX > lastTouchX) {
+    if (newX > lastTouchX + 6) {
       clearTouchY();
       if (
         currenTetr.some(
@@ -740,7 +740,7 @@ const touchEvents = (e) => {
         moveRight();
       }
       touchMoved = true;
-    } else if (newX < lastTouchX) {
+    } else if (newX < lastTouchX - 6) {
       clearTouchY();
       if (
         currenTetr.some((i) => (tetrPosition + i) % width === 0) ||
