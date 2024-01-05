@@ -527,7 +527,6 @@ const rowDestruction = () => {
       }, 210);
     }
   }
-  window.navigator.vibrate(300);
 };
 
 //
