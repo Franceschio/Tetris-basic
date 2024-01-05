@@ -170,6 +170,7 @@ let newX;
 let newY;
 let lastTouchX;
 let lastTouchY;
+let diffTouchY;
 let touchMoved = false;
 let touchInterval = null;
 
@@ -723,9 +724,11 @@ const touchEvents = (e) => {
   if (!document.querySelector(".mainMenu")) {
     e.preventDefault();
     let touch = e.touches[0]; // Ottieni il primo tocco
-    newX = Math.floor((gameBoard.clientWidth + touch.pageX) / 25); // Sposta il tetromino sull'asse X
-    newY = Math.floor((gameBoard.clientHeight + touch.pageY) / 25); // Sposta il tetromino sull'asse Y
-    if (newX > lastTouchX) {
+    newX = Math.floor(
+      (touch.pageX - (gameBoard.offsetLeft + gameBoard.clientWidth)) / 25
+    ); // Sposta il tetromino sull'asse X
+    newY = Math.floor((gameBoard.clientWidth - touch.pageY) / 25); // Sposta il tetromino sull'asse Y
+    if (newX > lastTouchX + 0.7) {
       clearTouchY();
       if (
         currenTetr.some(
@@ -739,8 +742,7 @@ const touchEvents = (e) => {
         moveRight();
       }
       touchMoved = true;
-    } else if (newX < lastTouchX) {
-      console.log(newX);
+    } else if (newX < lastTouchX - 0.7) {
       clearTouchY();
       if (
         currenTetr.some((i) => (tetrPosition + i) % width === 0) ||
@@ -753,11 +755,17 @@ const touchEvents = (e) => {
         moveLeft();
       }
       touchMoved = true;
-    } else if (newY > lastTouchY) {
+    } else if (newY < lastTouchY) {
       if (!touchInterval) {
         moveFlag = false;
-        touchInterval = setInterval(() => fall(), 180);
+        touchInterval = setInterval(() => {
+          diffTouchY = newY - lastTouchY;
+          fall();
+        }, 180);
       }
+      touchMoved = true;
+    } else if (newY > diffTouchY) {
+      clearTouchY();
       touchMoved = true;
     }
     lastTouchX = newX;
