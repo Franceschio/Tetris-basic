@@ -719,16 +719,13 @@ const setPauseMenu = () => {
 };
 
 const touchEvents = (e) => {
-  lastTouchY = 0;
   let isTouchingBorder = false; //Una condizione di uscita per evitare per le if
   if (!document.querySelector(".mainMenu")) {
     e.preventDefault();
     let touch = e.touches[0]; // Ottieni il primo tocco
-    newX = Math.floor(
-      (touch.pageX - (gameBoard.offsetLeft + gameBoard.clientWidth)) / 25
-    ); // Sposta il tetromino sull'asse X
-    newY = Math.floor((gameBoard.clientWidth - touch.pageY) / 25); // Sposta il tetromino sull'asse Y
-    if (newX > lastTouchX + 0.7) {
+    newX = Math.floor((touch.pageX - gameBoard.offsetLeft) / 25); // Sposta il tetromino sull'asse X
+    newY = Math.floor((touch.pageY - gameBoard.offsetTop) / 25); // Sposta il tetromino sull'asse Y
+    if (newX > lastTouchX + 0.5) {
       clearTouchY();
       if (
         currenTetr.some(
@@ -742,7 +739,7 @@ const touchEvents = (e) => {
         moveRight();
       }
       touchMoved = true;
-    } else if (newX < lastTouchX - 0.7) {
+    } else if (newX < lastTouchX - 0.5) {
       clearTouchY();
       if (
         currenTetr.some((i) => (tetrPosition + i) % width === 0) ||
@@ -755,20 +752,20 @@ const touchEvents = (e) => {
         moveLeft();
       }
       touchMoved = true;
-    } else if (newY < lastTouchY) {
+    } else if (newY > lastTouchY) {
       if (!touchInterval) {
         moveFlag = false;
         touchInterval = setInterval(() => {
-          diffTouchY = newY - lastTouchY;
           fall();
         }, 180);
       }
       touchMoved = true;
-    } else if (newY > diffTouchY) {
+    } else if (newY < lastTouchY) {
       clearTouchY();
       touchMoved = true;
     }
     lastTouchX = newX;
+    lastTouchY = newY;
   }
 };
 
