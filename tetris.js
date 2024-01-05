@@ -454,7 +454,7 @@ const moveInterval = setInterval(() => {
   ) {
     fall();
   }
-}, 1000);
+}, 900);
 
 //Nuovo tetromino
 
@@ -527,6 +527,7 @@ const rowDestruction = () => {
       }, 210);
     }
   }
+  window.navigator.vibrate(300);
 };
 
 //
@@ -564,25 +565,29 @@ const setTetrRotation = () => {
   //sinistra
   if (
     currenTetr.some((i) => (tetrPosition + i) % width === 0) &&
-    randomNum !== 3 &&
-    randomNum !== 1
+    randomNum !== 3 && // --- oTetromino
+    randomNum !== 1 // --- zTetromino
   ) {
     tetrPosition++;
     //Verifico i casi particolari
     if (randomNum == 6 && (tetrRotation == 0 || tetrRotation == 2)) {
+      // --- zTetrominoR
       tetrPosition--;
     } else if (
+      // --- tTetromino
       randomNum == 2 &&
       (tetrRotation == 0 || tetrRotation == 2 || tetrRotation == 3)
     ) {
       tetrPosition--;
     } else if (
+      // --- lTetromino
       randomNum == 0 &&
       (tetrRotation == 1 || tetrRotation == 2 || tetrRotation == 3)
     ) {
       tetrPosition--;
       tetrRotation == 3 ? tetrPosition-- : null;
     } else if (randomNum == 5 && (tetrRotation == 1 || tetrRotation == 2)) {
+      // --- lTetrominoR
       tetrPosition--;
       tetrRotation == 1 ? tetrPosition-- : null;
     }
@@ -590,29 +595,35 @@ const setTetrRotation = () => {
   //destra
   if (
     currenTetr.some((i) => (tetrPosition + i) % width === width - 1) &&
-    randomNum !== 3 &&
-    randomNum !== 6
+    randomNum !== 3 && // --- oTetromino
+    randomNum !== 6 // --- zTetrominoR
   ) {
     tetrPosition--;
     //Verifico i casi particolari
     if (randomNum == 4 && (tetrRotation == 0 || tetrRotation == 2)) {
+      // --- iTetromino
       tetrPosition--;
     } else if (randomNum == 4 && (tetrRotation == 1 || tetrRotation == 3)) {
+      // --- iTetromino (Caso inverso)
       tetrPosition++;
     } else if (randomNum == 1 && (tetrRotation == 0 || tetrRotation == 2)) {
+      // --- zTetromino
       tetrPosition++;
     } else if (
+      // --- tTetromino
       randomNum == 2 &&
       (tetrRotation == 0 || tetrRotation == 2 || tetrRotation == 1)
     ) {
       tetrPosition++;
     } else if (
+      // --- lTetromino
       randomNum == 0 &&
       (tetrRotation == 0 || tetrRotation == 1 || tetrRotation == 3)
     ) {
       tetrPosition++;
       tetrRotation == 1 ? tetrPosition++ : null;
     } else if (randomNum == 5 && (tetrRotation == 0 || tetrRotation == 3)) {
+      // --- lTetrominoR
       tetrPosition++;
       tetrRotation == 3 ? (tetrPosition = tetrPosition + 2) : null;
     }
@@ -709,7 +720,7 @@ const setPauseMenu = () => {
 
 const touchEvents = (e) => {
   lastTouchY = 0;
-  let isTouchingBorder = false; //Una condizione di uscita per evitare il return nelle if
+  let isTouchingBorder = false; //Una condizione di uscita per evitare per le if
   if (!document.querySelector(".mainMenu")) {
     e.preventDefault();
     let touch = e.touches[0]; // Ottieni il primo tocco
@@ -745,7 +756,7 @@ const touchEvents = (e) => {
     } else if (newY > lastTouchY) {
       if (!touchInterval) {
         moveFlag = false;
-        touchInterval = setInterval(() => fall(), 200);
+        touchInterval = setInterval(() => fall(), 180);
       }
       touchMoved = true;
     }
