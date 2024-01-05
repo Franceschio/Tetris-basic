@@ -162,12 +162,24 @@ pointsView.className = "pointsView";
 const pointsList = document.createElement("div");
 pointsList.className = "pointsList";
 
+//Per disattivare l'intervallo se present il touchY
+let moveFlag = true;
+
 //Per movimento in touch
 let newX;
 let newY;
 let lastTouchX;
 let lastTouchY;
 let touchMoved = false;
+let touchInterval = null;
+
+//pulisci touchY
+const clearTouchY = () => {
+  lastTouchY = newY;
+  clearInterval(touchInterval);
+  touchInterval = null;
+  moveFlag = true;
+};
 
 //creo il valore della larghezza di una riga di quadrati
 let width = 10;
@@ -437,7 +449,8 @@ const fall = () => {
 const moveInterval = setInterval(() => {
   if (
     !document.querySelector(".menu") &&
-    !document.querySelector(".mainMenu")
+    !document.querySelector(".mainMenu") &&
+    moveFlag
   ) {
     fall();
   }
@@ -529,7 +542,11 @@ const setTetrRotation = () => {
   const currentRotation = tetrRotation;
 
   if (
-    currenTetr.some((i) => (randomNum == 4 && tetrPosition + i) % width == 8)
+    currenTetr.some(
+      (i) =>
+        (randomNum == 4 && tetrPosition + i) % width == 8 &&
+        (tetrRotation == 0 || tetrRotation == 2)
+    )
   ) {
     tetrPosition--;
   }
@@ -551,6 +568,24 @@ const setTetrRotation = () => {
     randomNum !== 1
   ) {
     tetrPosition++;
+    //Verifico i casi particolari
+    if (randomNum == 6 && (tetrRotation == 0 || tetrRotation == 2)) {
+      tetrPosition--;
+    } else if (
+      randomNum == 2 &&
+      (tetrRotation == 0 || tetrRotation == 2 || tetrRotation == 3)
+    ) {
+      tetrPosition--;
+    } else if (
+      randomNum == 0 &&
+      (tetrRotation == 1 || tetrRotation == 2 || tetrRotation == 3)
+    ) {
+      tetrPosition--;
+      tetrRotation == 3 ? tetrPosition-- : null;
+    } else if (randomNum == 5 && (tetrRotation == 1 || tetrRotation == 2)) {
+      tetrPosition--;
+      tetrRotation == 1 ? tetrPosition-- : null;
+    }
   }
   //destra
   if (
@@ -559,7 +594,28 @@ const setTetrRotation = () => {
     randomNum !== 6
   ) {
     tetrPosition--;
-    randomNum == 4 ? tetrPosition-- : null;
+    //Verifico i casi particolari
+    if (randomNum == 4 && (tetrRotation == 0 || tetrRotation == 2)) {
+      tetrPosition--;
+    } else if (randomNum == 4 && (tetrRotation == 1 || tetrRotation == 3)) {
+      tetrPosition++;
+    } else if (randomNum == 1 && (tetrRotation == 0 || tetrRotation == 2)) {
+      tetrPosition++;
+    } else if (
+      randomNum == 2 &&
+      (tetrRotation == 0 || tetrRotation == 2 || tetrRotation == 1)
+    ) {
+      tetrPosition++;
+    } else if (
+      randomNum == 0 &&
+      (tetrRotation == 0 || tetrRotation == 1 || tetrRotation == 3)
+    ) {
+      tetrPosition++;
+      tetrRotation == 1 ? tetrPosition++ : null;
+    } else if (randomNum == 5 && (tetrRotation == 0 || tetrRotation == 3)) {
+      tetrPosition++;
+      tetrRotation == 3 ? (tetrPosition = tetrPosition + 2) : null;
+    }
   }
   //Cambia la variabile di rotazione in base alla posizione attuale
   if (tetrRotation < currenTetr.length - 1) {
@@ -652,12 +708,15 @@ const setPauseMenu = () => {
 };
 
 const touchEvents = (e) => {
+  lastTouchY = 0;
+  let isTouchingBorder = false; //Una condizione di uscita per evitare il return nelle if
   if (!document.querySelector(".mainMenu")) {
     e.preventDefault();
     let touch = e.touches[0]; // Ottieni il primo tocco
     newX = Math.floor((gameBoard.clientWidth + touch.pageX) / 25); // Sposta il tetromino sull'asse X
     newY = Math.floor((gameBoard.clientHeight + touch.pageY) / 25); // Sposta il tetromino sull'asse Y
     if (newX > lastTouchX) {
+      clearTouchY();
       if (
         currenTetr.some(
           (i) =>
@@ -665,29 +724,32 @@ const touchEvents = (e) => {
             currenTetr.some((i) => (tetrPosition + i) % width === width - 1)
         )
       ) {
-        return;
+        isTouchingBorder = true;
       } else {
         moveRight();
       }
       touchMoved = true;
     } else if (newX < lastTouchX) {
+      clearTouchY();
       if (
         currenTetr.some((i) => (tetrPosition + i) % width === 0) ||
         currenTetr.some((i) =>
           squares[tetrPosition + i - 1].classList.contains("taked")
         )
       ) {
-        return;
+        isTouchingBorder = true;
       } else {
         moveLeft();
       }
       touchMoved = true;
     } else if (newY > lastTouchY) {
-      fall();
+      if (!touchInterval) {
+        moveFlag = false;
+        touchInterval = setInterval(() => fall(), 200);
+      }
       touchMoved = true;
     }
     lastTouchX = newX;
-    lastTouchY = newY;
   }
 };
 
@@ -788,6 +850,7 @@ gameBoard.addEventListener("touchend", (e) => {
   }
 });
 main.addEventListener("touchmove", touchEvents);
+main.addEventListener("touchend", () => clearTouchY());
 pauseButton.addEventListener("click", () => setPauseMenu());
 musicButton.addEventListener("click", () => riproduci());
 pointsRemoveBtn.addEventListener("click", showPointsList);
