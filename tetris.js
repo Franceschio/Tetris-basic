@@ -173,6 +173,7 @@ let lastTouchY;
 let diffTouchY;
 let touchMoved = false;
 let touchInterval = null;
+let touchStartTime;
 
 //pulisci touchY
 const clearTouchY = () => {
@@ -719,51 +720,58 @@ const setPauseMenu = () => {
 };
 
 const touchEvents = (e) => {
-  let isTouchingBorder = false; //Una condizione di uscita per evitare per le if
+  let isTouchingBorder = false;
+  const timeGap = 100; // Tempistiche del tocco
   if (!document.querySelector(".mainMenu")) {
     e.preventDefault();
-    let touch = e.touches[0]; // Ottieni il primo tocco
-    newX = Math.floor((touch.pageX - gameBoard.clientWidth) / 25); // Sposta il tetromino sull'asse X
-    newY = Math.floor((touch.pageY - gameBoard.clientHeight) / 25); // Sposta il tetromino sull'asse Y
-    if (newX > lastTouchX) {
-      clearTouchY();
-      if (
-        currenTetr.some(
-          (i) =>
-            squares[tetrPosition + i + 1].classList.contains("taked") ||
-            currenTetr.some((i) => (tetrPosition + i) % width === width - 1)
-        )
-      ) {
-        isTouchingBorder = true;
-      } else {
-        moveRight();
-      }
-      touchMoved = true;
-    } else if (newX < lastTouchX) {
-      clearTouchY();
-      if (
-        currenTetr.some((i) => (tetrPosition + i) % width === 0) ||
-        currenTetr.some((i) =>
-          squares[tetrPosition + i - 1].classList.contains("taked")
-        )
-      ) {
-        isTouchingBorder = true;
-      } else {
-        moveLeft();
-      }
-      touchMoved = true;
-    } else if (newY > lastTouchY) {
+    let touch = e.touches[0];
+    newX = Math.floor((touch.pageX - gameBoard.clientWidth) / 25);
+    newY = Math.floor((touch.pageY - gameBoard.clientHeight) / 25);
+    //Asse Y
+    if (newY > lastTouchY) {
       if (!touchInterval) {
         moveFlag = false;
         touchInterval = setInterval(() => {
+          touchStartTime = Date.now() + 10;
           fall();
         }, 180);
       }
       touchMoved = true;
     } else if (newY < lastTouchY) {
       clearTouchY();
-      rowDestruction();
       touchMoved = true;
+    }
+    //Asse X
+    if (Date.now() - touchStartTime > timeGap) {
+      // Controlla se è passato abbastanza tempo
+      if (newX > lastTouchX) {
+        clearTouchY();
+        if (
+          currenTetr.some(
+            (i) =>
+              squares[tetrPosition + i + 1].classList.contains("taked") ||
+              currenTetr.some((i) => (tetrPosition + i) % width === width - 1)
+          )
+        ) {
+          isTouchingBorder = true;
+        } else {
+          moveRight();
+        }
+        touchMoved = true;
+      } else if (newX < lastTouchX) {
+        clearTouchY();
+        if (
+          currenTetr.some((i) => (tetrPosition + i) % width === 0) ||
+          currenTetr.some((i) =>
+            squares[tetrPosition + i - 1].classList.contains("taked")
+          )
+        ) {
+          isTouchingBorder = true;
+        } else {
+          moveLeft();
+        }
+        touchMoved = true;
+      }
     }
     lastTouchX = newX;
     lastTouchY = newY;
@@ -854,6 +862,7 @@ document.addEventListener("keydown", multyAction);
 gameBoard.addEventListener("touchstart", (e) => {
   if (!document.querySelector(".mainMenu")) {
     e.preventDefault();
+    touchStartTime = Date.now();
     touchMoved = false;
   }
 });
