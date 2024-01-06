@@ -754,7 +754,7 @@ const touchEvents = (e) => {
         touchInterval = setInterval(() => {
           touchStartTime = Date.now();
           fall();
-        }, 180);
+        }, 160);
       }
       touchMoved = true;
     } else if (newY < lastTouchY) {
@@ -763,7 +763,7 @@ const touchEvents = (e) => {
     }
     //Asse X
     if (Date.now() - touchStartTime > timeGap && speedX > touchSpeed) {
-      if (newX > lastTouchX) {
+      if (newX > lastTouchX && speedX > touchSpeed) {
         clearTouchY();
         if (
           currenTetr.some(
@@ -777,7 +777,7 @@ const touchEvents = (e) => {
           moveRight();
         }
         touchMoved = true;
-      } else if (newX < lastTouchX) {
+      } else if (newX < lastTouchX && speedX > touchSpeed) {
         clearTouchY();
         if (
           currenTetr.some((i) => (tetrPosition + i) % width === 0) ||
