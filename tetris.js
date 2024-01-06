@@ -743,7 +743,7 @@ const setPauseMenu = () => {
 const touchEvents = (e) => {
   let isTouchingBorder = false;
   const timeGap = 120; // Tempistiche del tocco
-  const touchSpeed = 0.06; // Soglia per la velocità del movimento sull'asse X
+  const touchSpeed = 0.04; // Soglia per la velocità del movimento sull'asse X
   if (!document.querySelector(".mainMenu")) {
     e.preventDefault();
     let touch = e.touches[0];
