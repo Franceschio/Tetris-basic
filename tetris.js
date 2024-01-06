@@ -743,7 +743,7 @@ const touchEvents = (e) => {
     }
     //Asse X
     if (Date.now() - touchStartTime > timeGap) {
-      // Controlla se è passato abbastanza tempo
+      touchStartTime = Date.now() - 150;
       if (newX > lastTouchX) {
         clearTouchY();
         if (
