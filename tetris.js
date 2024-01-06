@@ -756,8 +756,10 @@ const touchEvents = (e) => {
           fall();
         }, 180);
       }
+      touchMoved = true;
     } else if (newY < lastTouchY) {
       clearTouchY();
+      touchMoved = true;
     }
     //Asse X
     if (Date.now() - touchStartTime > timeGap && speedX > touchSpeed) {
