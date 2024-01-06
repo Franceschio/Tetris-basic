@@ -407,6 +407,10 @@ const newGame = (menu) => {
     square.classList.remove("taked");
     square.style.backgroundColor = "";
   });
+  pauseBtnImg.setAttribute(
+    "src",
+    "https://cdn0.iconfinder.com/data/icons/phosphor-regular-vol-3/256/pause-512.png"
+  );
   points = 0;
   pointsView.textContent = `Punteggio: ${points}`;
   newTetr();
@@ -739,7 +743,7 @@ const setPauseMenu = () => {
 const touchEvents = (e) => {
   let isTouchingBorder = false;
   const timeGap = 120; // Tempistiche del tocco
-  const touchSpeed = 0.05; // Soglia per la velocità del movimento sull'asse X
+  const touchSpeed = 0.04; // Soglia per la velocità del movimento sull'asse X
   if (!document.querySelector(".mainMenu")) {
     e.preventDefault();
     let touch = e.touches[0];
@@ -754,7 +758,7 @@ const touchEvents = (e) => {
         touchInterval = setInterval(() => {
           touchStartTime = Date.now();
           fall();
-        }, 160);
+        }, 150);
       }
       touchMoved = true;
     } else if (newY < lastTouchY) {
@@ -763,7 +767,7 @@ const touchEvents = (e) => {
     }
     //Asse X
     if (Date.now() - touchStartTime > timeGap && speedX > touchSpeed) {
-      if (newX > lastTouchX && speedX > touchSpeed) {
+      if (newX > lastTouchX) {
         clearTouchY();
         if (
           currenTetr.some(
@@ -777,7 +781,7 @@ const touchEvents = (e) => {
           moveRight();
         }
         touchMoved = true;
-      } else if (newX < lastTouchX && speedX > touchSpeed) {
+      } else if (newX < lastTouchX) {
         clearTouchY();
         if (
           currenTetr.some((i) => (tetrPosition + i) % width === 0) ||
