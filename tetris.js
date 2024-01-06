@@ -719,14 +719,13 @@ const setPauseMenu = () => {
 };
 
 const touchEvents = (e) => {
-  newX ? (lastTouchX = newX) : null;
   let isTouchingBorder = false; //Una condizione di uscita per evitare per le if
   if (!document.querySelector(".mainMenu")) {
     e.preventDefault();
     let touch = e.touches[0]; // Ottieni il primo tocco
-    newX = Math.floor((touch.pageX - gameBoard.clientWidth) / 25) * 10; // Sposta il tetromino sull'asse X
+    newX = Math.floor((touch.pageX - gameBoard.clientWidth) / 25); // Sposta il tetromino sull'asse X
     newY = Math.floor((touch.pageY - gameBoard.clientHeight) / 25); // Sposta il tetromino sull'asse Y
-    if (newX > lastTouchX + 6) {
+    if (newX > lastTouchX) {
       clearTouchY();
       if (
         currenTetr.some(
@@ -740,7 +739,7 @@ const touchEvents = (e) => {
         moveRight();
       }
       touchMoved = true;
-    } else if (newX < lastTouchX - 6) {
+    } else if (newX < lastTouchX) {
       clearTouchY();
       if (
         currenTetr.some((i) => (tetrPosition + i) % width === 0) ||
