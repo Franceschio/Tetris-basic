@@ -174,6 +174,7 @@ let diffTouchY;
 let touchMoved = false;
 let touchInterval = null;
 let touchStartTime;
+let lastTouchTime;
 
 //pulisci touchY
 const clearTouchY = () => {
@@ -333,6 +334,10 @@ const backToMain = () => {
     "src",
     "https://cdn2.iconfinder.com/data/icons/squircle-ui/32/No_sound-512.png"
   );
+  pauseBtnImg.setAttribute(
+    "src",
+    "https://cdn0.iconfinder.com/data/icons/phosphor-regular-vol-3/256/pause-512.png"
+  );
   points = 0;
   pointsView.textContent = `Punteggio: ${points}`;
   main.append(mainMenu);
@@ -356,6 +361,10 @@ const stopAll = () => {
     musicBtnImg.setAttribute(
       "src",
       "https://cdn2.iconfinder.com/data/icons/squircle-ui/32/No_sound-512.png"
+    );
+    pauseBtnImg.setAttribute(
+      "src",
+      "https://cdn0.iconfinder.com/data/icons/phosphor-regular-vol-3/256/pause-512.png"
     );
     if (
       tuttiPunteggi.some((actualPoints) => points === actualPoints) ||
@@ -714,19 +723,30 @@ const fastPlace = () => {
 const setPauseMenu = () => {
   if (!document.querySelector(".menu")) {
     main.appendChild(pauseMenu);
+    pauseBtnImg.setAttribute(
+      "src",
+      "https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-play-outline-512.png"
+    );
   } else {
     main.removeChild(pauseMenu);
+    pauseBtnImg.setAttribute(
+      "src",
+      "https://cdn0.iconfinder.com/data/icons/phosphor-regular-vol-3/256/pause-512.png"
+    );
   }
 };
 
 const touchEvents = (e) => {
   let isTouchingBorder = false;
   const timeGap = 120; // Tempistiche del tocco
+  const touchSpeed = 0.1; // Soglia per la velocità del movimento sull'asse X
   if (!document.querySelector(".mainMenu")) {
     e.preventDefault();
     let touch = e.touches[0];
+    let timeDelta = Date.now() - lastTouchTime;
     newX = Math.floor((touch.pageX - gameBoard.clientWidth) / 25);
     newY = Math.floor((touch.pageY - gameBoard.clientHeight) / 25);
+    let speedX = Math.abs(newX - lastTouchX) / timeDelta;
     //Asse Y
     if (newY > lastTouchY) {
       if (!touchInterval) {
@@ -742,8 +762,7 @@ const touchEvents = (e) => {
       touchMoved = true;
     }
     //Asse X
-    if (Date.now() - touchStartTime > timeGap) {
-      touchStartTime = Date.now() - 150;
+    if (Date.now() - touchStartTime > timeGap && speedX > touchSpeed) {
       if (newX > lastTouchX) {
         clearTouchY();
         if (
@@ -775,6 +794,7 @@ const touchEvents = (e) => {
     }
     lastTouchX = newX;
     lastTouchY = newY;
+    lastTouchTime = Date.now();
   }
 };
 
