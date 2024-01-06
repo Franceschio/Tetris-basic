@@ -896,7 +896,10 @@ gameBoard.addEventListener("touchend", (e) => {
   }
 });
 main.addEventListener("touchmove", touchEvents);
-main.addEventListener("touchend", () => clearTouchY());
+main.addEventListener("touchend", () => {
+  clearTouchY();
+  touchMoved = false;
+});
 pauseButton.addEventListener("click", () => setPauseMenu());
 musicButton.addEventListener("click", () => riproduci());
 pointsRemoveBtn.addEventListener("click", showPointsList);
