@@ -721,7 +721,7 @@ const setPauseMenu = () => {
 
 const touchEvents = (e) => {
   let isTouchingBorder = false;
-  const timeGap = 180; // Tempistiche del tocco
+  const timeGap = 160; // Tempistiche del tocco
   if (!document.querySelector(".mainMenu")) {
     e.preventDefault();
     let touch = e.touches[0];
@@ -732,7 +732,7 @@ const touchEvents = (e) => {
       if (!touchInterval) {
         moveFlag = false;
         touchInterval = setInterval(() => {
-          touchStartTime = Date.now() - 70;
+          touchStartTime = Date.now() - 50;
           fall();
         }, 180);
       }
