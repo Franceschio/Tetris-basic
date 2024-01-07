@@ -773,7 +773,7 @@ const touchEvents = (e) => {
         touchInterval = setInterval(() => {
           touchStartTime = Date.now();
           fall();
-        }, 140);
+        }, 130);
       }
       touchMoved = true;
     } else if (newY < lastTouchY) {
