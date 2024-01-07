@@ -373,13 +373,14 @@ const stopAll = () => {
       return;
     } else {
       if (tuttiPunteggi.length > 10) {
-        tuttiPunteggi = tuttiPunteggi.splice(0, 9);
+        tuttiPunteggi = tuttiPunteggi.splice(0, 8);
       }
       localStorage.setItem(
         "punteggi",
         JSON.stringify([...tuttiPunteggi, points])
       );
       tuttiPunteggi = JSON.parse(localStorage.getItem("punteggi"));
+      tuttiPunteggi.sort((a, b) => b - a);
       tuttiPunteggi.map((points, i) => {
         const pointRow = document.createElement("div");
         pointRow.className = "pointRow";
