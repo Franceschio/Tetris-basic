@@ -654,14 +654,13 @@ const setTetrRotation = () => {
   const isColliding = currenTetr.some((i) =>
     squares[tetrPosition + i].classList.contains("taked")
   );
+  // Se c'è una collisione, ripristina la rotazione e la posizione precedenti
   if (isColliding) {
-    // Se c'è una collisione, ripristina la rotazione e la posizione precedenti
     tetrRotation = currentRotation;
     tetrPosition = currentPosition;
     currenTetr = tetrominoes[randomNum][tetrRotation];
     createTetr();
   } else {
-    // Altrimenti, crea il tetromino con la nuova rotazione
     createTetr();
   }
 };
@@ -725,18 +724,33 @@ const fastPlace = () => {
 //Attiva/disattiva menu di pausa
 
 const setPauseMenu = () => {
-  if (!document.querySelector(".menu")) {
-    main.appendChild(pauseMenu);
-    pauseBtnImg.setAttribute(
-      "src",
-      "https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-play-outline-512.png"
-    );
-  } else {
-    main.removeChild(pauseMenu);
-    pauseBtnImg.setAttribute(
-      "src",
-      "https://cdn0.iconfinder.com/data/icons/phosphor-regular-vol-3/256/pause-512.png"
-    );
+  if (!document.querySelector(".mainMenu")) {
+    if (!document.querySelector(".menu")) {
+      pauseBtnImg.setAttribute(
+        "src",
+        "https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-play-outline-512.png"
+      );
+      document.removeEventListener("keyup", singleAction);
+      document.removeEventListener("keydown", multyAction);
+      main.removeEventListener("touchmove", touchEvents);
+      main.appendChild(pauseMenu);
+    } else {
+      pauseBtnImg.setAttribute(
+        "src",
+        "https://cdn0.iconfinder.com/data/icons/phosphor-regular-vol-3/256/pause-512.png"
+      );
+      document.addEventListener("keyup", singleAction);
+      document.addEventListener("keydown", multyAction);
+      main.addEventListener("touchmove", touchEvents);
+      main.removeChild(pauseMenu);
+    }
+  }
+};
+
+//In caso si prema Esc
+const setEscPause = (e) => {
+  if (e.key == "Escape") {
+    setPauseMenu();
   }
 };
 
@@ -820,9 +834,6 @@ const singleAction = (e) => {
     case " ":
       setTetrRotation();
       break;
-    case "Escape":
-      setPauseMenu();
-      break;
   }
 };
 
@@ -881,6 +892,7 @@ const selectionsEvents = (select) => {
   }
 };
 
+document.addEventListener("keyup", setEscPause);
 document.addEventListener("keyup", singleAction);
 document.addEventListener("keydown", multyAction);
 gameBoard.addEventListener("touchstart", (e) => {
@@ -894,7 +906,6 @@ gameBoard.addEventListener("touchend", (e) => {
   if (!document.querySelector(".mainMenu")) {
     e.preventDefault();
     if (!touchMoved) {
-      touchMoved = false;
       setTetrRotation();
     }
   }
@@ -904,6 +915,6 @@ main.addEventListener("touchend", () => {
   clearTouchY();
   touchMoved = false;
 });
-pauseButton.addEventListener("click", () => setPauseMenu());
-musicButton.addEventListener("click", () => riproduci());
+pauseButton.addEventListener("click", setPauseMenu);
+musicButton.addEventListener("click", riproduci);
 pointsRemoveBtn.addEventListener("click", showPointsList);
