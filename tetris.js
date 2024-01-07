@@ -756,7 +756,7 @@ const setEscPause = (e) => {
 
 const touchEvents = (e) => {
   let isTouchingBorder = false;
-  const timeGap = 120; // Tempistiche del tocco
+  const timeGap = 120; // Tempistiche dal primo tocco
   const touchSpeed = 0.04; // Soglia per la velocità del movimento sull'asse X
   if (!document.querySelector(".mainMenu")) {
     e.preventDefault();
@@ -772,7 +772,7 @@ const touchEvents = (e) => {
         touchInterval = setInterval(() => {
           touchStartTime = Date.now();
           fall();
-        }, 150);
+        }, 140);
       }
       touchMoved = true;
     } else if (newY < lastTouchY) {
@@ -793,6 +793,7 @@ const touchEvents = (e) => {
           isTouchingBorder = true;
         } else {
           moveRight();
+          return;
         }
         touchMoved = true;
       } else if (newX < lastTouchX) {
@@ -806,6 +807,7 @@ const touchEvents = (e) => {
           isTouchingBorder = true;
         } else {
           moveLeft();
+          return;
         }
         touchMoved = true;
       }
