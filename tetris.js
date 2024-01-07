@@ -372,8 +372,8 @@ const stopAll = () => {
     ) {
       return;
     } else {
-      if (tuttiPunteggi.length > 10) {
-        tuttiPunteggi = tuttiPunteggi.splice(0, 8);
+      if (tuttiPunteggi.length > 9) {
+        tuttiPunteggi = tuttiPunteggi.splice(0, 9);
       }
       localStorage.setItem(
         "punteggi",
