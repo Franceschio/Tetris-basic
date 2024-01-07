@@ -174,7 +174,7 @@ let diffTouchY;
 let touchMoved = false;
 let touchInterval = null;
 let touchStartTime;
-let lastTouchTime;
+let touchLastTime;
 
 //pulisci touchY
 const clearTouchY = () => {
@@ -761,7 +761,7 @@ const touchEvents = (e) => {
   if (!document.querySelector(".mainMenu")) {
     e.preventDefault();
     let touch = e.touches[0];
-    let timeDelta = Date.now() - lastTouchTime;
+    let timeDelta = Date.now() - touchLastTime;
     newX = Math.floor((touch.pageX - gameBoard.clientWidth) / 25);
     newY = Math.floor((touch.pageY - gameBoard.clientHeight) / 25);
     let speedX = Math.abs(newX - lastTouchX) / timeDelta;
@@ -812,7 +812,7 @@ const touchEvents = (e) => {
     }
     lastTouchX = newX;
     lastTouchY = newY;
-    lastTouchTime = Date.now();
+    touchLastTime = Date.now();
   }
 };
 
