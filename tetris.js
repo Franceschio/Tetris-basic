@@ -749,6 +749,7 @@ const setPauseMenu = () => {
 
 //In caso si prema Esc
 const setEscPause = (e) => {
+  e.preventDefault();
   if (e.key == "Escape") {
     setPauseMenu();
   }
@@ -757,7 +758,7 @@ const setEscPause = (e) => {
 const touchEvents = (e) => {
   let isTouchingBorder = false;
   const timeGap = 120; // Tempistiche dal primo tocco
-  const touchSpeed = 0.04; // Soglia per la velocità del movimento sull'asse X
+  const touchSpeed = 0.05; // Soglia per la velocità del movimento sull'asse X
   if (!document.querySelector(".mainMenu")) {
     e.preventDefault();
     let touch = e.touches[0];
