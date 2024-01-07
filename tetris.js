@@ -416,6 +416,34 @@ const newGame = (menu) => {
   newTetr();
 };
 
+//Preview del tetromino
+
+const createShadow = () => {
+  // Rimuovere l'ombra esistente
+  squares.forEach((square) => square.classList.remove("shadow"));
+
+  // Creare un array temporaneo per la posizione futura del tetromino
+  let futureTetr = currenTetr.map((i) => tetrPosition + i);
+
+  // Calcolare la posizione dell'ombra
+  while (
+    futureTetr.every(
+      (i) =>
+        i + width < squares.length &&
+        !squares[i + width].classList.contains("taked")
+    )
+  ) {
+    futureTetr = futureTetr.map((i) => i + width);
+  }
+
+  // Disegnare l'ombra
+  futureTetr.forEach((i) => {
+    if (squares[i]) {
+      squares[i].classList.add("shadow");
+    }
+  });
+};
+
 //Crea un tetromino
 
 const createTetr = () => {
@@ -428,6 +456,7 @@ const createTetr = () => {
       stopAll();
       return;
     }
+    createShadow();
   });
 };
 
