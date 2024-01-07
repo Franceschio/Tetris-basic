@@ -758,7 +758,7 @@ const setEscPause = (e) => {
 const touchEvents = (e) => {
   let isTouchingBorder = false;
   const timeGap = 120; // Tempistiche dal primo tocco
-  const touchSpeed = 0.05; // Soglia per la velocità del movimento sull'asse X
+  const touchSpeedX = 0.05; // Soglia per la velocità del movimento sull'asse X
   if (!document.querySelector(".mainMenu")) {
     e.preventDefault();
     let touch = e.touches[0];
@@ -781,7 +781,7 @@ const touchEvents = (e) => {
       touchMoved = true;
     }
     //Asse X
-    if (Date.now() - touchStartTime > timeGap && speedX > touchSpeed) {
+    if (Date.now() - touchStartTime > timeGap && speedX > touchSpeedX) {
       if (newX > lastTouchX) {
         clearTouchY();
         if (
