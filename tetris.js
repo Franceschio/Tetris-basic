@@ -807,7 +807,8 @@ const touchEvents = (e) => {
     } else if (newY < lastTouchY) {
       clearTouchY();
       touchMoved = true;
-    } //Asse X
+    }
+    //Asse X
     else if (Date.now() - touchStartTime > timeGap && speedX > touchSpeedX) {
       if (newX > lastTouchX) {
         clearTouchY();
