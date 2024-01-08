@@ -804,14 +804,11 @@ const touchEvents = (e) => {
         }, 130);
       }
       touchMoved = true;
-      speedX--;
     } else if (newY < lastTouchY) {
       clearTouchY();
       touchMoved = true;
-      speedX--;
-    }
-    //Asse X
-    if (Date.now() - touchStartTime > timeGap && speedX > touchSpeedX) {
+    } //Asse X
+    else if (Date.now() - touchStartTime > timeGap && speedX > touchSpeedX) {
       if (newX > lastTouchX) {
         clearTouchY();
         if (
@@ -824,7 +821,6 @@ const touchEvents = (e) => {
           isTouchingBorder = true;
         } else {
           moveRight();
-          speedX = speedX - 2;
         }
         touchMoved = true;
       } else if (newX < lastTouchX) {
@@ -838,7 +834,6 @@ const touchEvents = (e) => {
           isTouchingBorder = true;
         } else {
           moveLeft();
-          speedX = speedX - 2;
         }
         touchMoved = true;
       }
