@@ -400,7 +400,6 @@ const stopAll = () => {
 const newGame = (menu) => {
   document.addEventListener("keyup", singleAction);
   document.addEventListener("keydown", multyAction);
-  main.addEventListener("touchmove", touchEvents);
   main.removeChild(menu);
   song.currentTime = 0;
   squares.forEach((square) => {
