@@ -58,6 +58,7 @@
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
+  gap: 10px;
   z-index: 50;
   position: fixed;
   padding: 20px;
