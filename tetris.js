@@ -800,14 +800,15 @@ const touchEvents = (e) => {
       if (!touchInterval) {
         moveFlag = false;
         touchInterval = setInterval(() => {
-          touchStartTime = Date.now();
           fall();
         }, 130);
       }
       touchMoved = true;
+      speedX--;
     } else if (newY < lastTouchY) {
       clearTouchY();
       touchMoved = true;
+      speedX--;
     }
     //Asse X
     if (Date.now() - touchStartTime > timeGap && speedX > touchSpeedX) {
@@ -823,7 +824,7 @@ const touchEvents = (e) => {
           isTouchingBorder = true;
         } else {
           moveRight();
-          return;
+          speedX = speedX - 2;
         }
         touchMoved = true;
       } else if (newX < lastTouchX) {
@@ -837,7 +838,7 @@ const touchEvents = (e) => {
           isTouchingBorder = true;
         } else {
           moveLeft();
-          return;
+          speedX = speedX - 2;
         }
         touchMoved = true;
       }
