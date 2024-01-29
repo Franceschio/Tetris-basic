@@ -597,15 +597,15 @@ const setTetrRotation = () => {
   }
   //Contralla che il tetromino non compenetri coi bordi
   //dal basso
-  if (
-    currenTetr.some(
-      (i) =>
-        !squares[tetrPosition + i + width] ||
-        squares[tetrPosition + i + width].classList.contains("taked")
-    )
-  ) {
-    tetrPosition = tetrPosition - width;
-  }
+  // if (
+  //   currenTetr.some(
+  //     (i) =>
+  //       !squares[tetrPosition + i + width] ||
+  //       squares[tetrPosition + i + width].classList.contains("taked")
+  //   )
+  // ) {
+  //   tetrPosition = tetrPosition - width;
+  // }
   //sinistra
   if (
     currenTetr.some((i) => (tetrPosition + i) % width === 0) &&
